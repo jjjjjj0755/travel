@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>添加新闻</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<link rel="shortcut icon" href="img/logo.png">
+	<style type="text/css">
+		.contianer{
+			width: 50%;
+			margin: 0 auto;
+		}
+		.tit input{
+			border: 0;
+			font-size: 30px;
+			text-align: center;
+			width: 100%;
+		}
+		.mt{
+			margin-top: 20px;
+		}
+		.content1 iframe{
+			border: 1px solid #ced4da;
+			width: 100%;
+			height: 25em;
+			resize:none;
+			border-radius: .3em;
+		}
+		.tool{
+			margin-top: 1em;
+		}
+		.tool button{
+			background: #e9ecef;
+			border: 0;
+		}
+		.error_tip{
+			width: 100%;
+		    margin-top: .25rem;
+		    font-size: 80%;
+		    color: #dc3545;
+		    display: none;
+		}
+		h3{
+			text-align: center;
+			color: #e1803e;
+		}
+	</style>
+</head>
+<body>
+	<div class="top">
+	   <iframe MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no src="head.html" width="100%"  height="50px">
+	  </iframe>
+	</div>
+	<div class="contianer">
+		<h3>添加新闻</h3>
+		<!-- 标题 -->
+		<div class="tit mt"><input placeholder="please input title" id="tit" required=""></div>
+		<div class="tool">
+			<button data-command="bold"><strong>加粗</strong></button>
+			<button data-command="fs6">大号字体</button>
+			<button data-command="fs5">中号字体</button>
+			<button data-command="fs4">小号字体</button>
+		</div>
+		<div class="content1 mt">
+			<!-- 文件编辑 -->
+			<iframe id="iframe"></iframe>
+		</div>
+		<label class="error_tip" id="text_err_tip"></label>
+		<!-- 提交按钮 -->
+		<button type="button" class="btn btn-primary btn-lg btn-block" onclick="contentUpload()">上传新闻</button>
+	</div>
+	<script src="jquery-3.4.1.js"></script>
+	<script type="text/javascript">
+		(function(){
+			var iframe=document.getElementById('iframe');
+			doc=iframe.contentDocument;
+			doc.designMode = "on";
+			var doc=iframe.contentDocument;
+			var x=new XMLSerializer();
+			var content=x.serializeToString(doc);
+			
+			$('.tool').click(function(e){
+				var command,
+				node=(e.target.nodeName==="BUTTON")?e.target:e.target.parentNode;
+				if(node.dataset){
+						command=node.dataset.command;
+				}else{
+					command=node.getAttribute('data-command');
+				}
+				if(command==='fs6'){
+					doc.execCommand('FontSize',false,6);
+				}else if(command==='fs5'){
+					doc.execCommand('FontSize',false,5);
+				}else if(command==='fs4'){
+					doc.execCommand('FontSize',false,3.5);
+				}else{
+					doc.execCommand(command);
+				}
+			})
+		})()
+		// 文件上传
+		function contentUpload(){
+			var tit=$('#tit');
+			var iframe=document.getElementById('iframe');
+			var doc=iframe.contentDocument;
+			var x=new XMLSerializer();
+			var content=x.serializeToString(doc);
+			var count1=content.lastIndexOf('<body>');
+			var count2=content.lastIndexOf('</body>');
+			var content=content.substring(count1+6,count2);
+			console.log(content);
+			if(tit==null||tit===''){
+				$('#text_err_tip').css('display','block');
+				$('#text_err_tip').text("标题不能是空");
+				return false;
+			}else if(content==null||content===''){
+				$('#text_err_tip').css('display','block');
+				$('#text_err_tip').text("内容不能是空");
+				return false;
+			}else{
+				$('#text_err_tip').css('display','none');
+				return true;
+			}
+			
+			console.log(content);
+			var news={};
+			news.title=tit;
+			news.content=content;
+			$.ajax({
+				type:'POST',
+				dataType:'json',
+				async:false,
+				data:{'news':news},
+				url:'',
+				success:function(result){
+					if(result.status=='200')
+	                  	console.log('文章上传成功！');
+	                  if(result.status=='500')
+	                  	console.log('服务器繁忙~')	;
+	              },
+	              error: function ()
+	              {
+	                  console.log("error");
+	              }
+			})
+		}
+
+	</script>
+</body>
+</html>

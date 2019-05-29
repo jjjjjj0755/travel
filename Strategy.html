@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>旅游攻略</title>
+	<link rel="stylesheet" type="text/css" href="Strategy.css">
+</head>
+<body>
+	<div class="top">
+	   <iframe MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no src="head.html" width="100%"  height="50px">
+	  </iframe>
+	</div>
+	<div class="contianer">
+		<div class="tit">
+			<span>上海+迪士尼（Disney）4日3晚半自助游(5钻)</span>
+		</div>
+		<!-- 第一天 -->
+		<h2 class="ic">D1</h2>
+		<div class="content mt">
+			<div class="section">
+				时刻都会卡号贷记卡四大金刚撒谎的噶时光收购代价昂贵的哈桑感到骄傲是个 时刻都会卡号贷记卡四大金刚撒谎的噶时光收购代价昂贵的哈桑感到骄傲是个时刻都会卡号贷记卡四大金刚撒谎的噶时光收购代价昂贵的哈桑感到骄傲是个时刻都会卡号贷记卡四大金刚撒谎的噶时光收购代价昂贵的哈桑感到骄傲是个时刻都会卡号贷记卡四大金刚撒谎的噶时光收购代价昂贵的哈桑感到骄傲是个
+				<div class="s_img">
+					<img src="img/log8.jpg"/>
+					<img src="img/log8.jpg"/>
+					<img src="img/log8.jpg"/>
+					<img src="img/log8.jpg"/>
+				</div>
+			</div>
+		</div>
+		<div class="cl"></div>
+	</div>
+	<script src="jquery-3.4.1.js"></script>
+	<script type="text/javascript">
+		(function(){
+			//根据id获取攻略内容
+			var loc = location.href;
+			var num=loc.lastIndexOf('=');
+			var id=decodeURI(loc.substring(num+1));
+			$.ajax({
+				url:'',
+				type:'post',
+				dataType:'json',
+				data:id,
+				success:function(result){
+					if(result.status===200){
+						var content=result.content;
+						$('.contianer').append(content);
+					}
+					else if(result.status===500){
+						var content=result.content;
+						$('.contianer').append('网页走丢了~');
+					}
+				},
+				error:function(){
+						console.log('error');
+				}
+			})
+		})
+	</script>
+</body>
+</html>

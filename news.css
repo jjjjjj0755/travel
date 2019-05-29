@@ -1,0 +1,52 @@
+ul,li{
+			list-style: none;
+}
+a{
+	text-decoration: none;
+}
+.contianer{
+	position: relative;
+	width: 75%;
+	left: 20%;
+	transform: translate(-50);
+}
+.fib{
+	width: 70%;
+	float: left;
+	margin-top: 5%;
+}
+.tit{
+	font-size: 30px;
+	text-align: center;
+	width: 100%;
+}
+.mt{
+	margin-top: 20px;
+}
+.date{
+	font-size: 1em;
+}
+.content{
+	font-size: 1.3em;
+	line-height: 2em;
+}
+.content img{
+	width: 100%;
+	height: 100%;
+}
+.side{
+	position: relative;
+	top: 90px;
+	width: 25%;
+	float: right;
+	border: 1px solid #ccc;
+	border-radius: .3em;
+	padding: 10px;
+}
+.side span{
+	font-weight: bold;
+	font-size: 1.3em;
+}
+.cl{
+	clear: both;
+}

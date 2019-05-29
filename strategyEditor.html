@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>添加旅游攻略</title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="layer.css">
+	<link rel="shortcut icon" href="img/logo.png">
+	<style type="text/css">
+		.cl{
+			clear: both;
+		}
+		.contianer{
+			width: 50%;
+			margin: 0 auto;
+		}
+		.tit input{
+			border: 0;
+			font-size: 30px;
+			text-align: center;
+			width: 100%;
+		}
+		.mt{
+			margin-top: 20px;
+		}
+		.content1 textarea{
+			width: 100%;
+			height: 15em;
+			resize:none;
+			border-radius: .3em;
+		}
+		.content1 textarea:focus{
+			color: #495057;
+		    background-color: #fff;
+		    border-color: #80bdff;
+		    outline: 0;
+		    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+		}
+		.error_tip{
+			width: 100%;
+		    margin-top: .25rem;
+		    font-size: 80%;
+		    color: #dc3545;
+		    display: none;
+		}
+		.show .show_img{
+			width: 150px;
+			height: 100px;
+			margin-right: 10px;
+		}
+		.fl{
+			float: left;
+		}
+		.fr{
+			float: right;
+		}
+		.btn button{
+			border-radius: 50% ;
+			border:0;
+			width: 3em;
+			height: 3em;
+			background:#e9ecef;/* #e1803e;*/
+			color: #fff;
+			font-size: 20px;
+			font-weight: bold;
+			outline: none;
+			cursor: pointer;
+		}
+		h3{
+			text-align: center;
+			color: #e1803e;
+		}
+	</style>
+</head>
+<body>
+	<div class="top">
+	   <iframe MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no src="head.html" width="100%"  height="50px">
+	  </iframe>
+	</div>
+	<div class="contianer">
+		<h3>添加旅游攻略</h3>
+		<form class="needs-validation" novalidate>
+		<!-- 标题 -->
+		<div class="tit mt">
+			<input placeholder="please input title" id="tit" class="tit" required>
+			<!-- <label class="error_tip" id="tit_err_tip">必须输入标题</label> -->
+		</div>
+		<div class="model_input">
+		<!-- 第一段内容 -->
+			<div class="content1 mt">
+				<!-- 文件编辑 -->
+				<textarea id="textarea1" placeholder="  第1天行程..."></textarea>
+				<!-- 文件上传 -->
+				<div class="input-group mb-3">
+				  <div class="input-group-prepend">
+				    <span class="input-group-text">Upload</span>
+				  </div>
+				  <div class="custom-file">
+				  	<form id="form1" method="post" action="" enctype="multipart/form-data">
+				    <input type="file" class="custom-file-input wl" id="imgUpload1" multiple  name="file1">
+				    </form>
+				    <label class="custom-file-label" for="imgUpload1" id="img_label1">添加图片</label>
+				  </div>
+				</div>
+				<div class="show show1">
+				</div>
+			</div>
+			
+		</div>
+		<div class="fl btn">
+			<button onclick="addSection()"><h2>+</h2></button>
+		</div>
+		<div class="fr btn">
+			<button onclick="DelSection()"><h2>-</h2></button>
+		</div>
+		<div class="cl"></div>
+		<label class="error_tip" id="text_err_tip"></label>
+		<!-- 提交按钮 -->
+		<button class="btn btn-primary btn-lg btn-block" onclick="contentUpload()">上传</button>
+
+	 </form>
+	</div>
+	<script src="jquery-3.4.1.js"></script>
+	<script src="layer.js"></script>
+	<script type="text/javascript">
+		(function(){
+			fileChange();
+		})();
+		var n=1;
+		//添加图片
+		function addSection(){
+			if(n===7) return ;
+			n++;
+			var str='<div class="content1 mt"><textarea id="textarea'+n+'" placeholder="第'+n +'天行程..."></textarea><div class="input-group mb-3"><div class="input-group-prepend"><span class="input-group-text">Upload</span></div><div class="custom-file"><form id="form3" method="post" action="" enctype="multipart/form-data"> <input type="file" class="custom-file-input wl" id="imgUpload'+n+'"multiple name="touristAttractionImgUpload"></form><label class="custom-file-label" for="imgUpload'+n+'" id="img_label'+n+'">添加图片</label></div></div><div class="show show'+n+'"></div></div>';
+			$('.contianer .model_input').append(str);
+			fileChange();
+		}
+		//删除图片
+		function DelSection(){
+			if(n===1) return ;
+			var str='你确定要删除第'+n+'天的行程吗？'
+			layer.confirm(str, {
+			  btn: ['确定', '取消'] //可以无限个按钮
+			}, function(index, layero){
+				console.log(layero);
+				n--;
+				$(".contianer .model_input>div:last").remove();
+				layer.msg('删除成功', {icon: 1});
+				layer.close(index);
+			  //按钮【按钮一】的回调
+			}, function(index){
+			  	layer.close(index);
+			});	
+		}
+		//文件预览
+		function changepic(str,last_str) {
+	       	var reads;
+	        var length=document.getElementById(str).files.length;
+	        last_str=".show"+last_str;
+	        console.log(last_str);
+	        $(last_str).html('');
+	        console.log(length);
+	        for(var i=0;i<length;i++){
+	        	reads= new FileReader();
+	        	f=document.getElementById(str).files[i];
+	        	reads.readAsDataURL(f);	  
+	         	reads.onload=function (e) {
+	        	var str='<img src=\"'+this.result+'\" class=\"show_img\" />'
+	        	$(last_str).append(str);
+	        	console.log(i);
+	        	};  	 	
+	        }	  
+    	}
+    	function fileChange(){
+    		//检查图片格式
+			var name='';
+			for(var n=0;n<7;n++){
+				var fileName='#imgUpload'+(n+1);
+				var files_=$(fileName);
+				files_.change(function(e){
+					var str=$(this).attr('id');
+					console.log(str);
+					var last_str=str.substring(str.length-1);
+					var cur_labelName='#img_label'+last_str;
+					console.log(cur_labelName);
+					var cur_label=$(cur_labelName);
+					var fileLength=e.currentTarget.files.length;
+					if(fileLength>4){
+						cur_label.text('最多只能上传4张照片');
+	      				cur_label.css('color','#CC0000');
+	      				return ;
+					}
+					name='';
+					for(var i=0;i<fileLength;i++){
+						var filename=e.currentTarget.files[i].name;
+						var format=saveImgPosition(filename);
+						//检查文件格式
+						 if(saveImgPosition(filename)==='error'){
+						 	cur_label.text('图片格式只能是gif,png,bmp,jpeg,psd.jpg');
+      						cur_label.css('color','#CC0000');
+      						break;
+						 }else{
+						 	name=name+' '+filename;
+						 	cur_label.css('color','#000');
+						 	cur_label.text(	name);
+						 	
+						 }
+					}
+					changepic(str,last_str);
+					//console.log($(this)[0].files.length);
+				})
+			}
+    	}
+		// 获取相片的格式
+      function getPos(str){
+      	if(str==null||str==undefined||str==="")
+      		return ;
+      	var num=str.lastIndexOf('.');
+      	return str.substring(num+1);
+      }
+      // 创建存储相片的位置.名字
+      function saveImgPosition(str){
+      	var timestamp = new Date().getTime(); 
+      	var name=getPos(str);
+      	if(name==""||name==undefined||name==null)
+      		return "error";
+      	var name_up=name.toUpperCase();
+      	if(name_up==='GIF'||name_up==='PNG'||name_up==='BMP'||name_up==='JPEG'||name_up==='PSD'||name_up==='JPG'){
+      		name=timestamp+"."+name;
+	      	return name;
+      	}else{
+      		return "error";
+      	}
+      }
+
+		// 判断标题是否时空的
+		function isempty(){
+			var tit=$('#tit').val();
+			if(tit==null||tit===''){
+				$('#text_err_tip').css('display','block');
+				$('#text_err_tip').text("标题不能是空");
+				return false;
+			}else{
+				$('#text_err_tip').css('display','none');
+				return true;
+			}
+		}
+		//上传内容
+		function contentUpload(){
+			//var tit=document.getElementById('tit');
+			//tit.addEventListener("input",isempty(),false);
+			var ise=isempty();
+			if(!ise){
+				return;
+			}
+			if($('#textarea1').val()===''){
+				$('#text_err_tip').text("第"+(1+p)+"日的行程不能为空");
+					$('#text_err_tip').css({
+    					"color":"#CC0000",
+    					"display":"block"});
+			}
+      		var con,con_v;
+			for(var p=1;p<=n;p++){
+				con="#textarea"+p;
+				con_v=$(con).val();
+				if(con_v===''){
+					$('#text_err_tip').text("第"+p+"日的行程不能为空");
+					$('#text_err_tip').css({
+    					"color":"#CC0000",
+    					"display":"block"});
+						return ;
+				}else{
+					$('#text_err_tip').css({
+    					"display":"none"});
+				}
+			}
+			var content=synthetise();
+			var tit=$('#tit').val();
+			//上传文本
+			var strategy={};
+			strategy.title=tit;
+			strategy.content=content;
+			$.ajax({
+				url:'',
+				secureuri:false,
+				type: 'POST',  
+		        data: strategy,  
+		        dataType: 'JOSN',
+				success: function (result){
+				  if(result.status=='200')
+				  	console.log('图片上传成功！');
+				  if(result.status=='500')
+				  	console.log('服务器繁忙~')	;
+				},
+				error: function ()
+				{
+                    console.log("error");
+				}
+			})
+		}
+		//上传图片 +  合成文本
+      function synthetise(){
+      	var tit=$('#tit').val();
+      	var tol="<div class=\"tit\"><span>"+tit+"</span></div>";
+      	for(var i=0;i<n;i++){
+      		var con="#textarea"+(i+1);
+      		var img="#imgUpload"+(i+1);
+      		var con_val=$(con).val();
+      		var img_val=$(img).val();
+      		console.log(con_val);
+      		var pos=saveImgPosition(img_val);
+      		if(!(con_val==""||con_val==undefined||con_val==null)){
+      			console.log("content");
+      			tol=tol+"<h2 class=\"ic\">D"+i+"</h2><div class=\"content mt\"><div class=\"section\">"+con_val;
+      		}
+      		//上传图片
+      		if(!(img_val==""||img_val==undefined||img_val==null)){
+      			tol=tol+"<div class=\"s_img\">";
+      			// 上传图片
+      			var data = new FormData();
+      			for(var j=0;j<$(img)[0].files.length;j++){
+      				//console.log($(img)[0].files.length);
+      				//console.log($(img)[0].files[j].name);
+      				var pos=saveImgPosition($(img)[0].files[j].name);
+      				tol=tol+"<img src=\""+pos+"\"/>";
+      				data.append("file",$(img)[0].files[j]);//单张图片上传
+      				data.append("title",tit);//攻略的标题
+      				data.append('pos',pos);//图片的名字
+      				 $.ajax({
+						url:'/uploadTouristAttractionImg',
+						secureuri:false ,
+						data:data,
+						type: 'POST',  
+				        data: data,  
+				        dataType: 'multipart/form-data',
+				        cache: false,  
+				        processData: false,  
+				        contentType: false,
+						success: function (result){
+						  if(result.status=='200')
+						  	console.log(pos+'图片上传成功！');
+						  if(result.status=='500')
+						  	console.log('服务器繁忙~')	;
+						},
+						error: function ()
+						{
+	                        console.log("error");
+						}
+	      			 });
+      			}
+      			tol+='</div></div></div>';
+      		}
+      	}
+      	console.log(tol);
+      	return tol;
+      }
+	</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="search/iconfont.css">
+<link rel="shortcut icon" href="img/logo.png">
+<style type="text/css">
+.top{
+	width: 100%;
+	background-color: #fff;
+	position: fixed;
+}
+.top img{
+	height: 45px;
+	width: 45px;
+	float: left;
+}
+.top span{
+	font-weight: bold;
+	/*vertical-align:sub;基线升高1em*/
+	float: left;
+	margin-top: .9em;
+	color: #e1803e;
+}
+.search {
+	position: relative;
+	left: 150px;
+	top: 10px;
+
+}
+.search span{
+	position: absolute;
+	top: 0;
+	margin: 3px;
+}
+.search input{
+	height: 30px;
+	padding-left:2em;
+	position: absolute;
+	border-radius: .5em;
+	border:#e1803e 1px solid;
+	height: 1.5em;
+}
+#rf{
+	float: right;
+	margin:10px;
+}
+#rf a{
+	margin-right:30px;
+	text-decoration-line: none;
+	color: #000;
+}
+#rf a:hover{
+	color:#f05a37;
+}
+</style>
+</head>
+<body>
+	<div class="top">
+		<!--标题栏-->
+		<img src="img/logo.png" id="logo"/>
+		<span>Uunio_H</span>
+		<div class="search">
+			<input type="text" placeholder="Search for you want" />
+			<span class="iconfont icon-chazhao"></span>
+		</div>
+		<div id="rf">
+			<a href="" onclick="window.open('homePage.html', '_top');">Home page</a>
+			<a href="" onclick="window.open('login.html', '_top');">Personal</a>
+			<a href="" onclick="window.open('login.html', '_top');">Login</a>
+			<a href="#">register</a>
+		</div>
+	</div>
+</body>
+</html>

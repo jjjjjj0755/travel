@@ -1,0 +1,125 @@
+body{
+	background:#f2f2f2;
+}
+ul,li{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+a{
+	text-decoration: none;
+}
+.nav a{
+	color: #e1803e;
+}
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+.cl{
+	clear: both;
+}
+.top{
+	height: 0;
+	width: 100%;
+	background-color: #fff;
+	position: fixed;
+	z-index: 20;
+}
+.contianer{
+	position: relative;
+	top: 50px;
+	left: 10%;
+	width: 80%;
+	background: #fff;
+}
+.contianer .center{
+	padding: 10px;
+}
+
+/*图片*/
+.center .img_srcoll{
+	width: 40%;
+	height: 40%;
+	overflow: hidden;	
+	float: left;
+}
+.center img{
+	width: 100%;
+	height:100%;
+}
+/*内容介绍*/
+.center .attr_content{
+	width: 50%;
+	float: left;
+	margin: 20px;
+}
+.center .attr_content .ml{
+	margin-left: 20px;
+}
+.center .attr_content .mt{
+	margin-top: 20px;
+}
+.center .attr_content .tit{
+	font-weight: bold;
+}
+/*其他结果*/
+.center .resultdiv{
+	border: 1px solid #ddd;
+	border-radius: .3em;
+	width:48%;
+	margin-top: 10px;
+	overflow: hidden;
+}
+.center .fl{
+	float: left;
+}
+.center .fr{
+	float: right;
+}
+.center .nsr{
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+}
+.resultdiv .pic{
+	width: 35%;
+	height: 90%;
+	margin: 5px;
+	border-radius: .5em;
+	overflow: hidden;
+}
+.resultdiv .tit{
+	font-weight: bold;
+	color: #e1803e;
+}
+.resultdiv a{
+	color: #0066cc;
+}
+.resultdiv a:hover{
+	color: #007bff;
+}
+.resultdiv .mt{
+	margin-top: 10px;
+}
+.resultdiv .ml{
+	margin-left: 20px;
+}
+.center .wb{
+	width:45%;
+}
+.wb .pic{
+	width: 15%;
+	height: 90%;
+	margin: 5px;
+}
+.list{
+	padding-top: 3em;
+	padding-right: 20px;
+}
+#icon_list{
+	font-size: 2em;
+}

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="bootstrap.min.css">
+	<link href="bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+	<style type="text/css">
+		.contianer{
+			position: absolute;
+			left: 30%;
+			width: 65%;
+			top: 10%;
+		}
+		.contianer .title{
+			font-weight: bold;
+			font-size: 20px;
+			margin: 10px;
+		}
+		/*chrome移除上下箭头*/
+		input::-webkit-outer-spin-button,
+		input::-webkit-inner-spin-button{
+		    -webkit-appearance: none !important;
+		    margin: 0;
+		}
+		/*在firefox下移除input[number]的上下箭头*/
+		input[type="number"]{-moz-appearance:textfield;}
+
+		.pass{
+			display: block;
+		    width: 100%;
+		    height: calc(1.5em + .75rem + 2px);
+		    padding: .375rem .75rem;
+		    font-size: 1rem;
+		    font-weight: 400;
+		    line-height: 1.5;
+		    color: #495057;
+		    background-color: #fff;
+		    background-clip: padding-box;
+		    border: 1px solid #ced4da;
+		    border-radius: .25rem;
+		    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+		}
+		.worry_tip{
+		     border-color: #dc3545;
+		    padding-right: calc(1.5em + .75rem);
+		    background-repeat: no-repeat;
+		    background-position: center right calc(.375em + .1875rem);
+		    background-size: calc(.75em + .375rem) calc(.75em + .375rem);
+		}
+
+		.pl{
+			padding-left: 5px;
+		}
+	</style>
+</head>
+<body>
+<div>
+   <iframe MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no src="head.html" width="100%"  height="auto">
+  </iframe>
+</div>
+<div class="contianer">
+<span class="title">Please fill in the registration information.</span>
+<form class="needs-validation" novalidate id="registform">
+ <!-- 用户名 -->
+ <div class="form-row">
+    <div class="col-md-4 mb-3">
+      <label for="username">Username</label>
+      <div class="input-group">
+        <input class="form-control" id="username" placeholder="Username" required pattern="^[a-zA-Z\u4e00-\u9fa5]{4,8}$" maxlength="8" >
+        <div class="invalid-feedback">
+          4-8  English letter and Chinese characters.
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 密码 -->
+   <div class="form-row">
+	    <div class="col-md-3 mb-3">
+	      <label for="password">Password</label>
+	      <input type="Password" class="form-control" id="password" placeholder="Password" required pattern="^[a-zA-Z0-9]{6,10}$" >
+	      <div class="invalid-feedback">
+	        Must be 8-10 characters long.
+	      </div>
+	    </div>	
+	</div>
+  <!-- 重新确定密码 -->
+   <div class="form-row passf">
+	    <div class="col-md-3 mb-3">
+	      <label for="passwordcomfirm">Password Comfirmation</label>
+	      <input type="Password" class="pass" id="passwordcomfirm" placeholder="Password" required pattern="^[a-zA-Z0-9]{6,10}$" >
+	      <div id="pc" class="invalid-feedback">
+	       Unlike previous passwords.
+	      </div>
+	    </div>	
+	</div>
+  <!-- 性别 -->
+  <div class="form-row">
+    <div class="col-md-6 mb-3">
+      <label>Sex</label>
+      <div class="radio_group">
+      	<div class="custom-control custom-radio custom-control-inline">
+		  <input type="radio" id="customRadioInline1" name="sex" class="custom-control-input" value="1" required>
+		  <label class="custom-control-label" for="customRadioInline1" >WOMAN</label>
+		</div>
+		<div class="custom-control custom-radio custom-control-inline">
+		  <input type="radio" id="customRadioInline2" name="sex" class="custom-control-input" value="0" required>
+		  <label class="custom-control-label" for="customRadioInline2" >MAN</label>
+		</div>
+      <div class="invalid-feedback">
+         Must choose a sex
+      </div>
+     </div>
+    </div>
+  </div>
+  	<!-- 日期 -->
+  	<div class="form-group">
+        <label  class="col-md-2 control-label pl">BirthDay</label>
+        <div class="input-group date form_date col-md-5 pl" id="setTime" data-date="" data-date-format="yyyy mm dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+            <input class="form-control" size="16" type="text" required>
+            <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+			<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
+        <div class="invalid-feedback">
+         Must choose a sex
+       </div>
+    </div>
+  <button class="btn btn-primary" id="btn" onclick="v_sub()" type="submit">Submit form</button>
+</form>
+</div>
+<script type="text/javascript" src="jquery-3.4.1.js" charset="UTF-8"></script>
+<script type="text/javascript" src="bootstrap.min.js"></script>
+<script type="text/javascript" src="bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+<script>
+// Example starter JavaScript for disabling form submissions if there are invalid fields
+//如果表单出错停止提交
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // 防止循环提交
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+        	console.log('提交失败')
+          event.preventDefault();
+          event.stopPropagation();
+        }else if(form.checkValidity() === true){
+        	var user={};
+			user.nickName=$('#username').val();
+			user.password=$('#password').val();
+			user.sex=parseInt($('.radio_group input[name="sex"]:checked').val());
+			user.birthday=$("#setTime").find("input").val();
+			console.log(user);
+	        form.classList.add('was-validated');
+			$.ajax({
+			url:'/doRegister',
+			dataType:'json',
+			method:'post',
+			data:user,
+			success:function(){
+				console.log('success');
+			},
+			error:function(){
+				console.log('error');
+			}
+			})	
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+  com_pass();
+})();
+//密码重新确认
+function com_pass(){
+	var passf=document.getElementsByClassName("passf");
+	var pass=document.getElementById("password");
+	var pass_con=document.getElementById("passwordcomfirm");
+	var pc=document.getElementById("pc");
+	pass_con.oninput=function(){
+		var value_c=pass_con.value;
+		var value=pass.value;
+		if(value!=value_c){
+			pc.style.display='block';
+			pass_con.classList.add('worry_tip');
+		}else if(value===value_c){
+			pc.style.display='none';
+			pass_con.classList.remove('worry_tip');
+		}
+	}
+}
+//提交的时候重新检查密码是否一致
+function v_sub(){
+	console.log('v_sub');
+	var passf=document.getElementsByClassName("passf");
+	var pass=document.getElementById("password");
+	var pass_con=document.getElementById("passwordcomfirm");
+	var pc=document.getElementById("pc");
+	var value_c=pass_con.value;
+    var value=pass.value;
+    if(value!=value_c){
+        pc.style.display='block';
+        pass_con.classList.add('worry_tip');
+    }else if(value===value_c){
+        pc.style.display='none';
+        pass_con.classList.remove('worry_tip');
+    }
+}
+</script>
+
+<!-- 日期插件 -->
+<script type="text/javascript">
+	$('.form_date').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+</script>
+</body>
+</html>

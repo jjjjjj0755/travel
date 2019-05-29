@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="homePage2.css">
+	<link rel="stylesheet" href="iconfont_lr/iconfont.css">
+	<link rel="stylesheet" href="iconfont_tb/iconfont.css">
+	<link rel="stylesheet" href="../static/layui.css" media="all">
+	<link rel="shortcut icon" href="img/logo.png">
+</head>
+<body>
+<div class="container">
+	  <div class="top">
+		<!--头部-->
+		<iframe MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no src="../head.html" width="100%"  height="45px">
+	    </iframe>
+	  </div>
+	  <!-- 第一版 -->
+	  <div class="banner">
+	  	<!-- 背景 -->
+	  	<img src="img/log1.jpg"/>
+	  	<div class="next_btn">
+	  		<span class="iconfont icon-xiangxia"></span>
+	  	</div>
+	  </div>
+	  <!-- 搜索框 -->
+	  <div class="input-search">
+	  	<span>Go and see&nbsp;&nbsp;<br>
+	  	&nbsp;&nbsp;&nbsp;&nbsp;What will you find?</span>
+	  		<input type="text" placeholder="travel notes,scenic spots,strategy" id="search"/>
+	  		<button id="btn_go" onclick="serach()">GO</button>
+	  </div>
+	<div class="photoShow">
+		<!-- 毛玻璃效果 -->
+	  	<div class="photoShow_b">
+	  	</div>
+		<div class="zuobeijin">
+			<span class="iconfont icon-zuobian"></span>
+		</div>
+		<div class="youbeijin">
+			<span class="iconfont icon-youbian"></span>
+		</div>
+		<!-- 存放的图片 -->
+		<div class="photoInner">
+			<!-- 13张 -->
+			<img src="img/log1.jpg"/>
+			<img src="img/log2.jpg"/>
+			<img src="img/log3.jpg"/>
+			<img src="img/log4.jpg"/>
+			<img src="img/log5.jpg"/>
+			<img src="img/log7.jpg"/>
+			<img src="img/log6.jpg"/>
+			<img src="img/log5.jpg"/>
+			<img src="img/log8.jpg"/>
+			<img src="img/log1.jpg"/>
+			<img src="img/log2.jpg"/>	
+			<img src="img/log1.jpg"/>
+			<img src="img/log2.jpg"/>
+		</div>
+	</div>
+	<div class="content">
+		<h1 class="tit">旅游新闻</h1><hr>
+		<div class="news fl">
+			<h2 class="mt mb">新闻热点</h2>
+			<a href="#">吉林大学珠海学院，中国最美的日出！</a><br>
+			<a href="#">吉林大学珠海学院，中国最美的日出！</a>
+		</div>
+		<div class="hot-Strategy fr">
+			<h2 class="mt mb">热门攻略</h2>
+			<div class="layui-carousel" id="new_Img">
+			  <div class="carousel-item">
+			    <!-- 攻略图片 -->
+			  </div>
+			</div>
+			<a href="#">吉林大学珠海学院，中国最美的日出！</a><br>
+			<a href="#">吉林大学珠海学院，中国最美的日出！</a>
+		</div>
+	</div>
+	<div class="cl"></div>
+</div>
+<script src="../static/layui.js"></script>
+<script src="../static/jquery-3.4.1.js"></script>
+
+<script>
+
+function serach(){
+	var content=$('#search').val();
+	location.href="searchResult.html?"+"content="+encodeURI(content);
+}
+function offs(e){
+	var width=$('.photoShow').outerWidth()/2,
+		left=$('.photoShow').offset().left;
+		x=width+left;
+		offset=(e.pageX>x)?1:0;
+		return offset;
+}
+function move(offset,left){
+	var width=$('.photoShow').outerWidth()/2;
+	if(offset&&left>-960){
+		$('.photoShow .photoInner').animate({'left':"-="+width},'slow');
+	}else if(!offset&&left<=-320){
+		$('.photoShow .photoInner').animate({'left':"+="+width},'slow');
+	 }
+}
+$(document).ready(function(){
+ $('.banner .next_btn').click(function(){
+		$('.content').css('display','block');
+		$(document).scrollTop(700);
+  })
+layui.use('carousel', function(){
+  var carousel = layui.carousel;
+  //建造实例
+  carousel.render({
+	elem: '#test1'
+	,width: '100%' //设置容器宽度
+	,arrow: 'always' //始终显示箭头
+	//,anim: 'updown' //切换动画方式
+	  });
+});
+
+//图片浏览器图片的显示
+var offset,width,left,t;
+	 $('.photoShow>.zuobeijin,.photoShow>.youbeijin').click(function(e){
+			left=$('.photoShow .photoInner').position().left;
+			offset=offs(e);
+			move(offset,left);
+	 });
+	 $('.photoInner img').click(function(e){
+		var v=$(e.target).attr('src');
+		var g='url('+v+')';
+		console.log(v);
+		console.log(g);
+		$('.banner img').attr('src',v);
+		$('.photoShow .photoShow_b').css('backgroundImage',g);
+
+	 })
+	getHotImg();
+	getHotStrategy();
+	getNewsLink();
+})
+
+//获取第二版新闻id
+function getNewsLink(){
+	var newsList=null;
+	$.ajax({
+		url:'',
+		method:'post',
+		dataType:'json',
+		success:function(result){
+			if(result.status==200){
+				newsList=result.content;
+				if(newsList!=null){
+					//根据id获取新闻的内容
+					for(var i=0;i<newsList.length;i++){
+						var str='<a href="news?content='+encodeURI(newsList[i].id)+'">'+newsList[i].newsTitle+'</a>';
+						$('.news').append(str);
+						if(i>15)
+							break;
+					}
+				}
+			}
+		},
+		error:function(){
+			console.log('error');
+		}
+	})
+
+}
+
+//获取景点图片
+function getHotImg(){
+	var imgArray=null;
+	$.ajax({
+		url:'',
+		method:'post',
+		dataType:'json',
+		success:function(result){
+			//返回一个数组
+			if(result.status==200){
+				imgArray=result.content;
+				if(imgArray!=null){
+					for(var i=0;i<imgArray.length;i++){
+						if(i<12){
+							var str='<img src="'+imgArray[i].picture+'"/>';
+							$('.photoInner').append(str);
+						}else
+							break;
+						if(i<4){
+							var str='<div><img src="'+imgArray[i].picture+'"/></div>';
+							$('.carousel-item').append(str);
+						}
+					}
+				}
+			}
+		},
+		error:function(){
+			console.log('getImg-error');
+		}
+	})
+}
+
+	//獲取攻略
+function getHotStrategy(){
+	var strategyList=null;
+	$.ajax({
+		url:'../getAllTouristGuides',
+		method:'post',
+		dataType:'json',
+		success:function(result){
+			//返回一个数组
+			if(result.status==200){
+				console.log('ok');
+				strategyList=result.content;
+				console.log(strategyList);
+				if(strategyList!=null){
+					for(var i=0;i<strategyList.length;i++){
+						var str='<br><a href="news?content='+encodeURI(strategyList[i].id)+'">'+strategyList[i].title+'</a>';
+						console.log(str);
+						$('.hot-Strategy').append(str);
+						if(i>=12)
+							break;
+					}
+				}
+			}
+		},
+		error:function(){
+			console.log('error');
+		}
+	})
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<link rel="stylesheet" href="iconfont/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="login.css">
+
+</head>
+<body>
+<div class="container">
+	<div>
+	   <iframe MARGINWIDTH=0 MARGINHEIGHT=0 HSPACE=0 VSPACE=0 FRAMEBORDER=0 SCROLLING=no src="head.html" width="100%"  height="auto">
+	  </iframe>
+	</div>
+    <div class="label_l">
+    	<!--左标签-->
+    	<span>Hello My Friend!</span>
+    </div>
+    <div class="login_bg">
+    	<!--右登陆模块-->
+	    	<span>Please sign in</span>
+	    	<div class="login_content">
+	    		<span class="iconfont icon-icon-user"></span>
+	    		<input type="text" id="userName" placeholder="userName">
+	    	</div>	
+	    	<div class="login_content">
+	    		<span class="iconfont icon-mima"></span>
+	    		<input type="text" id="passWorld" placeholder="passWorld">
+		    	<div class="login_content">
+		    	<button>login</button>
+	    		</div>
+			</div>
+	</div>
+</div>
+<script src="jquery-3.4.1.js"></script>
+<script type="text/javascript">
+	var user={
+		uname:$('#userName').val(),
+		password:$('#passWord').val()
+	};
+	$.ajax({
+	  url: "/api/getWeather",
+	  type:'post',
+	  data: user,
+	  dataType:'json',
+	  success: function( data ) {
+	  console.log("ok");
+	  },
+	  error:function(){
+	  	console.log("error");
+	  }
+	});
+</script>
+</body>
+</html>
